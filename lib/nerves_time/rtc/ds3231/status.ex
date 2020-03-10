@@ -23,21 +23,6 @@ defmodule NervesTime.RTC.DS3231.Status do
     [{:write_read, <<0x0F>>, 1}]
   end
 
-  @spec encode(data()) :: {:ok, registers()}
-  def encode(%{
-        osc_stop_flag: osc_stop_flag,
-        busy: busy,
-        ena_32khz_out: ena_32khz_out,
-        alarm_2_flag: alarm_2_flag,
-        alarm_1_flag: alarm_1_flag
-      }) do
-    bin =
-      <<osc_stop_flag::size(1), 0::size(3), ena_32khz_out::size(1), busy::size(1),
-        alarm_2_flag::size(1), alarm_1_flag::size(1)>>
-
-    {:ok, bin}
-  end
-
   @spec decode(registers()) :: {:ok, map()} | {:error, any()}
   def decode(
         <<osc_stop_flag::size(1), _::size(3), ena_32khz_out::size(1), busy::size(1),
@@ -55,4 +40,21 @@ defmodule NervesTime.RTC.DS3231.Status do
   end
 
   def decode(_other), do: {:error, :invalid}
+
+  @spec encode(data()) :: {:ok, registers()}
+  def encode(%{
+        osc_stop_flag: osc_stop_flag,
+        busy: busy,
+        ena_32khz_out: ena_32khz_out,
+        alarm_2_flag: alarm_2_flag,
+        alarm_1_flag: alarm_1_flag
+      }) do
+    bin =
+      <<osc_stop_flag::size(1), 0::size(3), ena_32khz_out::size(1), busy::size(1),
+        alarm_2_flag::size(1), alarm_1_flag::size(1)>>
+
+    {:ok, bin}
+  end
+
+  def encode(_), do: {:error, :invalid}
 end
