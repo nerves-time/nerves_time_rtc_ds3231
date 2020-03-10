@@ -1,6 +1,9 @@
 defmodule NervesTime.RTC.DS3231.Control do
   @moduledoc false
 
+  @typedoc "The DS3231 control registers are a 1-byte binary."
+  @type registers :: <<_::8>>
+
   @doc """
   Return a list of commands for reading the Control register
   """
@@ -9,17 +12,44 @@ defmodule NervesTime.RTC.DS3231.Control do
     [{:write_read, <<0x0E>>, 1}]
   end
 
-  @spec decode(<<_::8>>) :: {:ok, map()} | {:error, any()}
+  @spec decode(registers()) :: {:ok, map()} | {:error, any()}
   def decode(
-        <<osc_enable::integer-1, _bbsqw::integer-1, _conv_temp::integer-1, _rate_sel_1::integer-1,
-          _rate_sel_0::integer-1, _interrupt_control::integer-1, _alarm_2_int_ena::integer-1,
-          _alarm_1_int_ena::integer-1>>
+        <<osc_enable::1, bbsqw::1, conv_temp::1, rate_sel_1::1, rate_sel_0::1,
+          interrupt_control::1, alarm_2_int_ena::1, alarm_1_int_ena::1>>
       ) do
-    {:ok,
-     %{
-       osc_enable_: osc_enable
-     }}
+    data = %{
+      alarm_1_int_ena: alarm_1_int_ena,
+      alarm_2_int_ena: alarm_2_int_ena,
+      bbsqw: bbsqw,
+      conv_temp: conv_temp,
+      interrupt_control: interrupt_control,
+      rate_sel_0: rate_sel_0,
+      rate_sel_1: rate_sel_1,
+      osc_enable_: osc_enable
+    }
+
+    {:ok, data}
   end
 
   def decode(_other), do: {:error, :invalid}
+
+  @spec encode(map()) :: {:ok, registers()}
+  def encode(%{
+        alarm_1_int_ena: alarm_1_int_ena,
+        alarm_2_int_ena: alarm_2_int_ena,
+        bbsqw: bbsqw,
+        conv_temp: conv_temp,
+        interrupt_control: interrupt_control,
+        rate_sel_0: rate_sel_0,
+        rate_sel_1: rate_sel_1,
+        osc_enable_: osc_enable
+      }) do
+    bin =
+      <<osc_enable::1, bbsqw::1, conv_temp::1, rate_sel_1::1, rate_sel_0::1, interrupt_control::1,
+        alarm_2_int_ena::1, alarm_1_int_ena::1>>
+
+    {:ok, bin}
+  end
+
+  def encode(_), do: {:error, :invalid}
 end
