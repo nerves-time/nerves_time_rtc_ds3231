@@ -3,12 +3,14 @@
 [![CircleCI](https://circleci.com/gh/nerves-time/nerves_time_rtc_ds3231.svg?style=svg)](https://circleci.com/gh/nerves-time/nerves_time_rtc_ds3231)
 [![Hex version](https://img.shields.io/hexpm/v/nerves_time_rtc_ds3231.svg "Hex version")](https://hex.pm/packages/nerves_time_rtc_ds3231)
 
-NervesTime.RTC implementation for popular Maxim Integrated Extremely Accurate Real-Time Clock chip with TCXO.  
-[An "Oldie-but-Goodie". Dallas Semiconductor was acquired by Maxim in 2001]
+NervesTime.RTC implementation for popular Maxim Integrated Extremely Accurate
+Real-Time Clock chip with TCXO.  [An "Oldie-but-Goodie". Dallas Semiconductor
+was acquired by Maxim in 2001]
 
-Features of the DS3231 device other than the time and date registers  
-[i.e. Alarms, Interrupts, SQuare Wave output and Temperature measurement]  
-are untouched by this plugin, and are therefore available to other user-written Elixir apps.  
+Features of the DS3231 device other than the time and date registers  [i.e.
+Alarms, Interrupts, Square Wave output and Temperature measurement]  are
+untouched by this plugin, and are therefore available to other user-written
+Elixir apps.
 
 The following are supported:
 
