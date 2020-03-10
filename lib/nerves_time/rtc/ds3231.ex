@@ -96,6 +96,13 @@ defmodule NervesTime.RTC.DS3231 do
 
   @doc "Writes the control register."
   def set_control(i2c, address, control), do: set(i2c, address, 0x0E, control, Control)
+  @doc "Reads an alarm register."
+  def get_alarm(i2c, address, 1 = _alarm_num), do: get(i2c, address, 0x07, 4, Alarm)
+  def get_alarm(i2c, address, 2 = _alarm_num), do: get(i2c, address, 0x0B, 3, Alarm)
+
+  @doc "Writes an alarm register."
+  def set_alarm(i2c, address, %{seconds: _} = a1), do: set(i2c, address, 0x07, a1, Alarm)
+  def set_alarm(i2c, address, a2), do: set(i2c, address, 0x0B, a2, Alarm)
 
   defp set(i2c, address, offset, data, module) do
     with {:ok, bin} <- module.encode(data),
