@@ -1,6 +1,9 @@
 defmodule NervesTime.RTC.DS3231.Status do
   @moduledoc false
 
+  @typedoc "The DS3231 status registers are a 1-byte binary."
+  @type registers :: <<_::8>>
+
   @doc """
   Return a list of commands for reading the Status register
   """
@@ -9,19 +12,35 @@ defmodule NervesTime.RTC.DS3231.Status do
     [{:write_read, <<0x0F>>, 1}]
   end
 
-  @spec decode(<<_::8>>) :: {:ok, map()} | {:error, any()}
+  @spec encode(map()) :: {:ok, registers()}
+  def encode(%{
+        osc_stop_flag: osc_stop_flag,
+        busy: busy,
+        ena_32khz_out: ena_32khz_out,
+        alarm_2_flag: alarm_2_flag,
+        alarm_1_flag: alarm_1_flag
+      }) do
+    bin =
+      <<osc_stop_flag::size(1), 0::size(3), ena_32khz_out::size(1), busy::size(1),
+        alarm_2_flag::size(1), alarm_1_flag::size(1)>>
+
+    {:ok, bin}
+  end
+
+  @spec decode(registers()) :: {:ok, map()} | {:error, any()}
   def decode(
-        <<osc_stop_flag::integer-1, _::integer-3, ena_32khz_out::integer-1, busy::integer-1,
-          alarm_2_flag::integer-1, alarm_1_flag::integer-1>>
+        <<osc_stop_flag::size(1), _::size(3), ena_32khz_out::size(1), busy::size(1),
+          alarm_2_flag::size(1), alarm_1_flag::size(1)>>
       ) do
-    {:ok,
-     %{
-       osc_stop_flag: osc_stop_flag,
-       busy: busy,
-       ena_32khz_out: ena_32khz_out,
-       alarm_2_flag: alarm_2_flag,
-       alarm_1_flag: alarm_1_flag
-     }}
+    data = %{
+      osc_stop_flag: osc_stop_flag,
+      busy: busy,
+      ena_32khz_out: ena_32khz_out,
+      alarm_2_flag: alarm_2_flag,
+      alarm_1_flag: alarm_1_flag
+    }
+
+    {:ok, data}
   end
 
   def decode(_other), do: {:error, :invalid}
