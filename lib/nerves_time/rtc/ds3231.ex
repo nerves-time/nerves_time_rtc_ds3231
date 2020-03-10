@@ -42,8 +42,7 @@ defmodule NervesTime.RTC.DS3231 do
     bus_name = Keyword.get(args, :bus_name, @default_bus_name)
     address = Keyword.get(args, :address, @default_address)
 
-    with {:ok, i2c} <- I2C.open(bus_name),
-         true <- rtc_available?(i2c, address) do
+    with {:ok, i2c} <- I2C.open(bus_name) do
       {:ok, %{i2c: i2c, bus_name: bus_name, address: address}}
     else
       {:error, _} = error ->
@@ -59,8 +58,12 @@ defmodule NervesTime.RTC.DS3231 do
 
   @impl NervesTime.RealTimeClock
   def set_time(state, now) do
-    with {:ok, registers} <- Date.encode(now),
-         :ok <- I2C.write(state.i2c, state.address, [0, registers]) do
+    with {:ok, date_registers} <- Date.encode(now),
+         {:ok, status_registers} <- I2C.write_read(state.i2c, state.address, <<0x0F>>, 1),
+         {:ok, status_data} <- Status.decode(status_registers),
+         {:ok, status_registers} <- Status.encode(%{status_data | osc_stop_flag: 0}),
+         :ok <- I2C.write(state.i2c, state.address, [0x00, date_registers]),
+         :ok <- I2C.write(state.i2c, state.address, [0x0F, status_registers]) do
       state
     else
       error ->
@@ -80,26 +83,4 @@ defmodule NervesTime.RTC.DS3231 do
         {:unset, state}
     end
   end
-
-  @spec rtc_available?(I2C.bus(), I2C.address()) :: boolean()
-  defp rtc_available?(i2c, address) do
-    case I2C.write_read(i2c, address, <<0x0F>>, 1) do
-      {:ok, status_reg} ->
-        supported?(Status.decode(status_reg))
-
-      {:error, :i2c_nak} ->
-        false
-    end
-  end
-
-  defp supported?({:ok, status}) do
-    if status.osc_stop_flag !== 0 do
-      _ = Logger.warn("DS3231 RTC Status : Oscillator Stop Flag is set #{inspect(status)}")
-      false
-    else
-      true
-    end
-  end
-
-  defp supported?(_other), do: false
 end
