@@ -83,7 +83,7 @@ defmodule NervesTime.RTC.DS3231 do
 
   @spec rtc_available?(I2C.bus(), I2C.address()) :: boolean()
   defp rtc_available?(i2c, address) do
-    case I2C.write_read(i2c, address, <<0x0f>>, 1) do
+    case I2C.write_read(i2c, address, <<0x0F>>, 1) do
       {:ok, status_reg} ->
         supported?(Status.decode(status_reg))
 
@@ -94,11 +94,12 @@ defmodule NervesTime.RTC.DS3231 do
 
   defp supported?({:ok, status}) do
     if status.osc_stop_flag !== 0 do
-      _ = Logger.warn("DS3231 RTC Status : Oscillator Stop Flag is set #{inspect status}")
+      _ = Logger.warn("DS3231 RTC Status : Oscillator Stop Flag is set #{inspect(status)}")
       false
     else
       true
     end
   end
+
   defp supported?(_other), do: false
 end

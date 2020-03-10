@@ -17,9 +17,7 @@ defmodule NervesTime.RTC.DS3231.Date do
   This only returns years between 2000 and 2099.
   """
   @spec decode(<<_::56>>) :: {:ok, NaiveDateTime.t()} | {:error, any()}
-  def decode(
-        <<seconds_bcd, minutes_bcd, hours24_bcd, _day, date_bcd, month_bcd, year_bcd>>
-      ) do
+  def decode(<<seconds_bcd, minutes_bcd, hours24_bcd, _day, date_bcd, month_bcd, year_bcd>>) do
     {:ok,
      %NaiveDateTime{
        microsecond: {0, 0},
@@ -44,7 +42,7 @@ defmodule NervesTime.RTC.DS3231.Date do
   @spec encode(NaiveDateTime.t()) :: {:ok, <<_::56>>} | {:error, any()}
   def encode(%NaiveDateTime{year: year} = date_time) when year > 2000 and year < 2100 do
     {microseconds, _precision} = date_time.microsecond
-    seconds_bcd = BCD.from_integer(round(date_time.second + (microseconds / 1_000_000)))
+    seconds_bcd = BCD.from_integer(round(date_time.second + microseconds / 1_000_000))
     minutes_bcd = BCD.from_integer(date_time.minute)
     hours24_bcd = BCD.from_integer(date_time.hour)
     day_bcd = BCD.from_integer(Calendar.ISO.day_of_week(year, date_time.month, date_time.day))
