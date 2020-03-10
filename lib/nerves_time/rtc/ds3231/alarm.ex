@@ -68,10 +68,6 @@ defmodule NervesTime.RTC.DS3231.Alarm do
         minutes: minutes,
         seconds: seconds
       }) do
-    a1m1 = a1m1
-    a1m2 = a1m2
-    a1m3 = a1m3
-    a1m4 = a1m4
     seconds = BCD.from_integer(seconds)
     minutes = BCD.from_integer(minutes)
     hours = BCD.from_integer(hours)

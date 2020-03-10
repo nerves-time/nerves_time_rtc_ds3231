@@ -25,7 +25,7 @@ defmodule NervesTime.RTC.DS3231 do
   require Logger
 
   alias Circuits.I2C
-  alias NervesTime.RTC.DS3231.{Alarm, Control, Date, Status}
+  alias NervesTime.RTC.DS3231.{Alarm, Control, Date, Status, Temperature}
 
   @default_bus_name "i2c-1"
   @default_address 0x68
@@ -102,6 +102,9 @@ defmodule NervesTime.RTC.DS3231 do
   @doc "Writes an alarm register."
   def set_alarm(i2c, address, %{seconds: _} = a1), do: set(i2c, address, 0x07, a1, Alarm)
   def set_alarm(i2c, address, a2), do: set(i2c, address, 0x0B, a2, Alarm)
+
+  @doc "Reads the temperature register."
+  def get_temperature(i2c, address), do: get(i2c, address, 0x11, 2, Temperature)
 
   defp set(i2c, address, offset, data, module) do
     with {:ok, bin} <- module.encode(data),
