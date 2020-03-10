@@ -34,11 +34,19 @@ And then update your `:nerves_time` configuration to point to it:
 config :nerves_time, rtc: NervesTime.RTC.DS3231
 ```
 
-It's possible to override the default I2C bus and address via options:
+It's possible to override the default I2C bus, I2C address, and current `:century` via options:
 
 ```elixir
-config :nerves_time, rtc: {NervesTime.RTC.DS3231, [bus_name: "i2c-2", address:
-0x69]}
+rtc_opts = [
+  address: 0x68,
+  bus_name: "i2c-1",
+  century: 2000
+]
+config :nerves_time, rtc: {NervesTime.RTC.DS3231, rtc_opts}
 ```
+
+The `:century` option indicates to this library what century to associate with the DS3231's
+century bit set to logic `0`. Logic `1` is associated with `:century` plus 100. Internally the
+DS3231 will toggle its century bit when its years counter rolls over.
 
 Check the logs for error messages if the RTC doesn't appear to work.
