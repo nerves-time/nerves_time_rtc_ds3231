@@ -30,6 +30,9 @@ defmodule NervesTime.RTC.DS3231 do
   @default_bus_name "i2c-1"
   @default_address 0x68
 
+  @typedoc "This type represents the many registers whose value is a single bit."
+  @type flag :: 0 | 1
+
   @typedoc false
   @type state :: %{
           i2c: I2C.bus(),

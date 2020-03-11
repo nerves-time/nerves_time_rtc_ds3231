@@ -1,8 +1,19 @@
 defmodule NervesTime.RTC.DS3231.Status do
   @moduledoc false
 
+  alias NervesTime.RTC.DS3231
+
   @typedoc "The DS3231 status registers are a 1-byte binary."
   @type registers :: <<_::8>>
+
+  @typedoc "The shape of the status registers after decoding them."
+  @type data :: %{
+          osc_stop_flag: DS3231.flag(),
+          busy: DS3231.flag(),
+          ena_32khz_out: DS3231.flag(),
+          alarm_2_flag: DS3231.flag(),
+          alarm_1_flag: DS3231.flag()
+        }
 
   @doc """
   Return a list of commands for reading the Status register
@@ -12,7 +23,7 @@ defmodule NervesTime.RTC.DS3231.Status do
     [{:write_read, <<0x0F>>, 1}]
   end
 
-  @spec encode(map()) :: {:ok, registers()}
+  @spec encode(data()) :: {:ok, registers()}
   def encode(%{
         osc_stop_flag: osc_stop_flag,
         busy: busy,
