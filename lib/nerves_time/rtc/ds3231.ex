@@ -45,7 +45,8 @@ defmodule NervesTime.RTC.DS3231 do
     bus_name = Keyword.get(args, :bus_name, @default_bus_name)
     address = Keyword.get(args, :address, @default_address)
 
-    with {:ok, i2c} <- I2C.open(bus_name) do
+    with {:ok, i2c} <- I2C.open(bus_name),
+         true <- rtc_available?(i2c, address) do
       {:ok, %{i2c: i2c, bus_name: bus_name, address: address}}
     else
       {:error, _} = error ->
@@ -84,6 +85,13 @@ defmodule NervesTime.RTC.DS3231 do
       any_error ->
         _ = Logger.error("DS3231 RTC not set or has an error: #{inspect(any_error)}")
         {:unset, state}
+    end
+  end
+
+  defp rtc_available?(i2c, address) do
+    case I2C.write_read(i2c, address, <<0>>, 1) do
+      {:ok, <<_::8>>} -> true
+      {:error, _} -> false
     end
   end
 end
