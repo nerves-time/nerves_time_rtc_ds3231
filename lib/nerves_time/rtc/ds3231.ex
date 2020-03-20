@@ -63,7 +63,7 @@ defmodule NervesTime.RTC.DS3231 do
   @impl NervesTime.RealTimeClock
   def set_time(state, now) do
     with {:ok, status_data} <- get_status(state.i2c, state.address),
-         :ok <- set(state.i2c, state.address, 0x0F, now, Date),
+         :ok <- set(state.i2c, state.address, 0x0, now, Date),
          :ok <- set_status(state.i2c, state.address, %{status_data | osc_stop_flag: 0}) do
       state
     else
