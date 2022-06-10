@@ -16,7 +16,7 @@ defmodule NervesTime.RTC.DS3231.MixProject do
       source_url: @source_url,
       docs: docs(),
       dialyzer: [
-        flags: [:unmatched_returns, :error_handling, :race_conditions, :underspecs]
+        flags: [:missing_return, :extra_return, :unmatched_returns, :error_handling, :underspecs]
       ]
     ]
   end

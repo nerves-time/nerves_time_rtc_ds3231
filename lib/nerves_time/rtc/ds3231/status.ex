@@ -23,7 +23,7 @@ defmodule NervesTime.RTC.DS3231.Status do
     [{:write_read, <<0x0F>>, 1}]
   end
 
-  @spec decode(registers()) :: {:ok, map()} | {:error, any()}
+  @spec decode(registers()) :: {:ok, map()} | {:error, :invalid}
   def decode(
         <<osc_stop_flag::size(1), _::size(3), ena_32khz_out::size(1), busy::size(1),
           alarm_2_flag::size(1), alarm_1_flag::size(1)>>
@@ -41,7 +41,7 @@ defmodule NervesTime.RTC.DS3231.Status do
 
   def decode(_other), do: {:error, :invalid}
 
-  @spec encode(data()) :: {:ok, registers()}
+  @spec encode(data()) :: {:ok, registers()} | {:error, :invalid}
   def encode(%{
         osc_stop_flag: osc_stop_flag,
         busy: busy,

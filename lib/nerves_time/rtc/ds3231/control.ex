@@ -33,7 +33,7 @@ defmodule NervesTime.RTC.DS3231.Control do
 
   def decode(_other), do: {:error, :invalid}
 
-  @spec encode(map()) :: {:ok, registers()}
+  @spec encode(map()) :: {:ok, registers()} | {:error, :invalid}
   def encode(%{
         alarm_1_int_ena: alarm_1_int_ena,
         alarm_2_int_ena: alarm_2_int_ena,
