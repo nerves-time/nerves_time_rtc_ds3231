@@ -17,7 +17,12 @@ defmodule NervesTime.RTC.DS3231.MixProject do
       docs: docs(),
       dialyzer: [
         flags: [:missing_return, :extra_return, :unmatched_returns, :error_handling, :underspecs]
-      ]
+      ],
+      preferred_cli_env: %{
+        docs: :docs,
+        "hex.publish": :docs,
+        "hex.build": :docs
+      }
     ]
   end
 
@@ -50,17 +55,18 @@ defmodule NervesTime.RTC.DS3231.MixProject do
     [
       {:circuits_i2c, "~> 1.0 or ~> 0.3.6"},
       {:nerves_time, "~> 0.4.0"},
-      {:ex_doc, "~> 0.19", only: [:dev, :test], runtime: false},
+      {:ex_doc, "~> 0.19", only: :docs, runtime: false},
       {:dialyxir, "~> 1.1.0", only: [:dev, :test], runtime: false}
     ]
   end
 
-  def docs do
+  defp docs do
     [
-      extras: ["README.md"],
+      extras: ["README.md", "CHANGELOG.md"],
       main: "readme",
       source_ref: "v#{@version}",
-      source_url: @source_url
+      source_url: @source_url,
+      skip_undefined_reference_warnings_on: ["CHANGELOG.md"]
     ]
   end
 end
