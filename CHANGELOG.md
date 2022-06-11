@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.2
+
+* Updates
+  * Allow `circuits_i2c` 1.0 and later
+  * Minor spec cleanup to fix OTP 25 Dialyzer warnings
+
 ## v0.1.1
 
 * Bug fixes

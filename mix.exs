@@ -1,7 +1,7 @@
 defmodule NervesTime.RTC.DS3231.MixProject do
   use Mix.Project
 
-  @version "0.1.1"
+  @version "0.1.2"
   @source_url "https://github.com/nerves-time/nerves_time_rtc_ds3231"
 
   def project do
