@@ -53,7 +53,7 @@ defmodule NervesTime.RTC.DS3231.MixProject do
 
   defp deps do
     [
-      {:circuits_i2c, "~> 1.0 or ~> 0.3.6"},
+      {:circuits_i2c, "~> 1.0 or ~> 0.3.6 or ~> 2.0"},
       {:nerves_time, "~> 0.4.0"},
       {:ex_doc, "~> 0.19", only: :docs, runtime: false},
       {:dialyxir, "~> 1.4", only: :dev, runtime: false}
