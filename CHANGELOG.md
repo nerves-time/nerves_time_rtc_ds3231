@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.1.3
+
+* Updates
+  * Allow `circuits_i2c` 2.0 and later
+  * Fix deprecated `Calendar.ISO.day_of_week/3` by `Calendar.ISO.day_of_week/4`
+    in date.ex
+
 ## v0.1.2
 
 * Updates
