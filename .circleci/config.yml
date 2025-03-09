@@ -72,6 +72,13 @@ jobs:
               echo "Not a dependabot PR, skipping automerge"
             fi
 
+  check-license:
+    docker:
+      - image: fsfe/reuse:latest
+    steps:
+      - checkout
+      - run: reuse lint
+
 workflows:
   checks:
     jobs:
@@ -87,3 +94,8 @@ workflows:
           filters:
             branches:
               only: /^dependabot.*/
+
+      - check-license:
+          filters:
+            tags:
+              only: /.*/
