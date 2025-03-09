@@ -8,7 +8,7 @@ defmodule NervesTime.RTC.DS3231.MixProject do
     [
       app: :nerves_time_rtc_ds3231,
       version: @version,
-      elixir: "~> 1.7",
+      elixir: "~> 1.13",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       description: description(),
