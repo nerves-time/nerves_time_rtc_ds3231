@@ -1,3 +1,9 @@
+# SPDX-FileCopyrightText: 2020 Daniel Spofford
+# SPDX-FileCopyrightText: 2020 John Simmonds
+# SPDX-FileCopyrightText: 2023 Jon Carstens
+#
+# SPDX-License-Identifier: Apache-2.0
+#
 defmodule NervesTime.RTC.DS3231 do
   @moduledoc """
   DS3231 RTC implementation for NervesTime

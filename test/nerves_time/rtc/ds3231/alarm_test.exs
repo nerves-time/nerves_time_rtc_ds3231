@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2020 Daniel Spofford
+#
+# SPDX-License-Identifier: Apache-2.0
+#
 defmodule NervesTime.RTC.DS3231.AlarmTest do
   use ExUnit.Case
   alias NervesTime.RTC.DS3231.Alarm

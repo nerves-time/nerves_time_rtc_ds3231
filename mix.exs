@@ -43,11 +43,17 @@ defmodule NervesTime.RTC.DS3231.MixProject do
         "test",
         "mix.exs",
         "README.md",
-        "LICENSE",
+        "LICENSES",
+        "NOTICE",
+        "REUSE.toml",
         "CHANGELOG.md"
       ],
       licenses: ["Apache-2.0"],
-      links: %{"GitHub" => @source_url}
+      links: %{
+        "GitHub" => @source_url,
+        "REUSE Compliance" =>
+          "https://api.reuse.software/info/github.com/nerves-time/nerves_time_rtc_ds3231"
+      }
     }
   end
 

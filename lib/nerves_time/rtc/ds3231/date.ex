@@ -1,3 +1,9 @@
+# SPDX-FileCopyrightText: 2020 Frank Hunleth
+# SPDX-FileCopyrightText: 2020 John Simmonds
+# SPDX-FileCopyrightText: 2023 Masatoshi Nishiguchi
+#
+# SPDX-License-Identifier: Apache-2.0
+#
 defmodule NervesTime.RTC.DS3231.Date do
   @moduledoc false
 

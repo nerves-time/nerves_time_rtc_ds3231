@@ -1,3 +1,8 @@
+# SPDX-FileCopyrightText: 2020 Daniel Spofford
+# SPDX-FileCopyrightText: 2020 John Simmonds
+#
+# SPDX-License-Identifier: Apache-2.0
+#
 defmodule NervesTime.RTC.DS3231.StatusTest do
   use ExUnit.Case
   alias NervesTime.RTC.DS3231.Status
